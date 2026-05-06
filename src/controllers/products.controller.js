@@ -27,12 +27,12 @@ export const getProducts = async (req, res) => {
       prevLink: result.hasPrevPage
         ? `/api/products?page=${result.prevPage}`
         : null,
-      nextLink: result.hasPrevPage
+      nextLink: result.hasNextPage
         ? `/api/products?page=${result.nextPage}`
         : null,
     });
   } catch (Error) {
-    res.status(500).json({ status: "error", message: error.message });
+    res.status(500).json({ status: "error", message: Error.message });
   }
 };
 
@@ -41,6 +41,6 @@ export const addProducts = async (req, res) => {
     const result = await productService.addProducts(req.body);
     res.status(201).json({ status: "success", payload: result });
   } catch (Error) {
-    res.status(400).json({ status: "error", message: error.message });
+    res.status(400).json({ status: "error", message: Error.message });
   }
 };
