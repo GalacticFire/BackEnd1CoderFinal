@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
     status: String,
     stock: Number,
     category: { type: String, index: true },
-    thumbnails: [],
+    thumbnails: [{type: String}],
   },
   {
     timestamps: true,

@@ -13,7 +13,7 @@ export const getProducts = async (req, res) => {
       lean: true,
     };
 
-    const result = await productService.getPaginated(filter, options);
+    const result = await productService.getProducts(filter, options);
 
     res.send({
       status: "success",
@@ -31,16 +31,18 @@ export const getProducts = async (req, res) => {
         ? `/api/products?page=${result.nextPage}`
         : null,
     });
-  } catch (Error) {
-    res.status(500).json({ status: "error", message: Error.message });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
   }
 };
 
-export const addProducts = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
-    const result = await productService.addProducts(req.body);
+    //console.log(req.body);
+    const result = await productService.createProduct(req.body);
     res.status(201).json({ status: "success", payload: result });
-  } catch (Error) {
-    res.status(400).json({ status: "error", message: Error.message });
+  } catch (error) {
+    //console.log(error)
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
