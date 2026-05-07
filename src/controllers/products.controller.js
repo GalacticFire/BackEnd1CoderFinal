@@ -1,4 +1,4 @@
-import ProductDAO from "../dao/dao/product.dao.js";
+import ProductDAO from "../dao/product.dao.js";
 const productService = new ProductDAO();
 
 export const getProducts = async (req, res) => {
