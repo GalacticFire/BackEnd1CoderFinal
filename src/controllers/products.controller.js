@@ -36,6 +36,12 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const getProductByID = async (req, res) => {
+  const { pid } = req.params;
+  const result = await productService.getProductByID(pid);
+  res.json({ result });
+};
+
 export const createProduct = async (req, res) => {
   try {
     //console.log(req.body);
