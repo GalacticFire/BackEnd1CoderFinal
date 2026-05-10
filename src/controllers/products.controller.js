@@ -1,6 +1,17 @@
 import ProductDAO from "../dao/product.dao.js";
 const productService = new ProductDAO();
 
+//C - Create
+export const createProduct = async (req, res) => {
+  try {
+    const result = await productService.createProduct(req.body);
+    res.status(201).json({ status: "success", payload: result });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
+  }
+};
+
+//R - Read
 export const getProducts = async (req, res) => {
   try {
     const { page = 1, limit = 10, sort, category } = req.query;
@@ -32,7 +43,7 @@ export const getProducts = async (req, res) => {
         : null,
     });
   } catch (error) {
-    res.status(500).json({ status: "error", message: error.message });
+    returnres.status(500).json({ status: "error", message: error.message });
   }
 };
 
@@ -40,27 +51,44 @@ export const getProductByID = async (req, res) => {
   try {
     const { pid } = req.params;
     const result = await productService.getProductByID(pid);
-    res.json({ result });
+    return res.json({ result });
   } catch (error) {
-    res.status(404).send("Producto no encontrado");
+    return res.status(404).send("Producto no encontrado");
   }
 };
 
-export const createProduct = async (req, res) => {
+//U update
+export const updateProduct = async (req, res) => {
   try {
-    const result = await productService.createProduct(req.body);
-    res.status(201).json({ status: "success", payload: result });
+    const { pid } = req.params;
+
+    if (!pid) {
+      return res.status(400).json(error, "Faltan información.");
+    }
+
+    const updateData = await productService.updateProduct(pid, req.body);
+
+    if (!updateData) {
+      return res.status(400).json(error, "Error en los campos actualizar.");
+    }
+
+    return res.status(200).json({ status: "success", payload: updateData });
   } catch (error) {
-    res.status(400).json({ status: "error", message: error.message });
+    return res.status(500).json({
+      status: "error",
+      message: "Ha ocurrido un error",
+      error: error.message,
+    });
   }
 };
 
+// D - Delete
 export const deleteProduct = async (req, res) => {
   try {
     const { pid } = req.params;
     const result = await productService.deleteProduct(pid);
-    res.status(201).json({ status: "Delete", payload: result });
+    return res.status(201).json({ status: "Delete", payload: result });
   } catch (error) {
-    res.status(400).json("No se pudo elimnar");
+    return res.status(400).json("No se pudo elimnar");
   }
 };
