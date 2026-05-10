@@ -37,18 +37,30 @@ export const getProducts = async (req, res) => {
 };
 
 export const getProductByID = async (req, res) => {
-  const { pid } = req.params;
-  const result = await productService.getProductByID(pid);
-  res.json({ result });
+  try {
+    const { pid } = req.params;
+    const result = await productService.getProductByID(pid);
+    res.json({ result });
+  } catch (error) {
+    res.status(404).send("Producto no encontrado");
+  }
 };
 
 export const createProduct = async (req, res) => {
   try {
-    //console.log(req.body);
     const result = await productService.createProduct(req.body);
     res.status(201).json({ status: "success", payload: result });
   } catch (error) {
-    //console.log(error)
     res.status(400).json({ status: "error", message: error.message });
+  }
+};
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const { pid } = req.params;
+    const result = await productService.deleteProduct(pid);
+    res.status(201).json({ status: "Delete", payload: result });
+  } catch (error) {
+    res.status(400).json("No se pudo elimnar");
   }
 };
