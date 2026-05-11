@@ -14,7 +14,9 @@ export default class ProductDAO {
   };
 
   updateProduct = async (pid, updateData) => {
-    return await ProductModel.findByIdAndUpdate(pid, updateData, { new: true });
+    return await ProductModel.findByIdAndUpdate(pid, updateData, {
+      returnDocument: "after",
+    });
   };
 
   deleteProduct = async (pid) => {
