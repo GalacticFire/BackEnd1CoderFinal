@@ -43,7 +43,7 @@ export const getProducts = async (req, res) => {
         : null,
     });
   } catch (error) {
-    returnres.status(500).json({ status: "error", message: error.message });
+    return res.status(500).json({ status: "error", message: error.message });
   }
 };
 
