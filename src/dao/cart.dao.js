@@ -38,9 +38,52 @@ export default class CartDAO {
     });
   };
 
+  quantityProduct = async (cid, pid, quantity) => {
+    const cart = await CartModel.findById(cid).lean();
+    if (!cart) return null;
+
+    const productInCart = cart.products.find(
+      (p) => p.product?.toString() === pid,
+    );
+
+    if (!productInCart) return cart;
+
+    const newQuantity = productInCart.quantity + quantity;
+
+    if (newQuantity <= 0) {
+      return await CartModel.findByIdAndUpdate(
+        cid,
+        { $pull: { products: { product: pid } } },
+        { returnDocument: "after", lean: true },
+      );
+    }
+
+    return await CartModel.findOneAndUpdate(
+      { _id: cid, "products.product": pid },
+      { $set: { "products.$.quantity": newQuantity } },
+      { returnDocument: "after", lean: true },
+    );
+  };
+
   // D - Delete
 
-  deleteCart = async (cid) => {
-    return await CartModel.findByIdAndDelete(cid);
+  deleteProduct = async (cid, pid) => {
+    const updatedCart = await CartModel.findOneAndUpdate(
+      { _id: cid },
+      { $pull: { products: { product: pid } } },
+      { returnDocument: "after", lean: true },
+    );
+
+    return updatedCart;
+  };
+
+  emptyCart = async (cid) => {
+    return await CartModel.findByIdAndUpdate(
+      cid,
+      {
+        $set: { products: [] },
+      },
+      { returnDocument: "after", lean: true },
+    );
   };
 }
