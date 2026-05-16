@@ -1,0 +1,39 @@
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="/BackEnd1CoderFinalRivas/src/public/css/style.css"
+    />
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container"><a
+          href="/"
+          class="navbar-brand"
+        >EntregaFinalCoder</a>
+      </div>
+      <div class="navbar-nav">
+        <a href="/carts" class="nav-link">Carrito</a>
+      </div>
+    </nav>
+
+    <main class="container">
+      {{{body}}}
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+  </body>
+</html>

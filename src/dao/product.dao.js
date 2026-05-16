@@ -6,7 +6,7 @@ export default class ProductDAO {
   };
 
   getProducts = async (filter, options) => {
-    return await ProductModel.paginate(filter, { options, lean: true });
+    return await ProductModel.paginate(filter, options);
   };
 
   getProductByID = async (pid) => {
