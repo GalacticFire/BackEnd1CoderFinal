@@ -71,7 +71,7 @@ export const updateCart = async (req, res) => {
   const { cid } = req.params;
   const updateData = req.body;
 
-  const result = await cartService.updateCart(cid, updateCart);
+  const result = await cartService.updateCart(cid, updateData);
 
   return res.status(201).json({ status: "succes", payload: result });
 };

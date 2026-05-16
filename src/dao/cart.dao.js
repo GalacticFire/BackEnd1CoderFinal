@@ -25,9 +25,13 @@ export default class CartDAO {
     );
 
     if (!updatedCart) {
-      return await CartModel.findByIdAndUpdate(cid, {
-        $push: { products: { product: pid } },
-      });
+      return await CartModel.findByIdAndUpdate(
+        cid,
+        {
+          $push: { products: { product: pid } },
+        },
+        { returnDocument: "after", lean: true },
+      );
     }
     return updatedCart;
   };
@@ -43,14 +47,12 @@ export default class CartDAO {
     if (!cart) return null;
 
     const productInCart = cart.products.find(
-      (p) => p.product?.toString() === pid,
+      (p) => p.product?._id?.toString() === pid,
     );
 
     if (!productInCart) return cart;
 
-    const newQuantity = productInCart.quantity + quantity;
-
-    if (newQuantity <= 0) {
+    if (quantity <= 0) {
       return await CartModel.findByIdAndUpdate(
         cid,
         { $pull: { products: { product: pid } } },
@@ -60,7 +62,7 @@ export default class CartDAO {
 
     return await CartModel.findOneAndUpdate(
       { _id: cid, "products.product": pid },
-      { $set: { "products.$.quantity": newQuantity } },
+      { $set: { "products.$.quantity": quantity } },
       { returnDocument: "after", lean: true },
     );
   };

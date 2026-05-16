@@ -6,6 +6,7 @@ import {
   deletedProduct,
   quantityProductToCart,
   emptyCart,
+  updateCart,
 } from "../controllers/carts.controller.js";
 
 const router = Router();
@@ -16,5 +17,6 @@ router.post("/:cid/products/:pid", addProductToCart);
 router.delete("/:cid/products/:pid", deletedProduct);
 router.delete("/:cid", emptyCart);
 router.put("/:cid/products/:pid/", quantityProductToCart);
+router.put("/:cid", updateCart);
 
 export default router;
