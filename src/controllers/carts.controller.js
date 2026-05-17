@@ -19,7 +19,7 @@ export const getCartByID = async (req, res) => {
   try {
     const { cid } = req.params;
     const result = await cartService.getCartByID(cid);
-    return await res.status(200).json({ status: "success", payload: result });
+    return await res.status(302).json({ status: "success", payload: result });
   } catch (error) {
     return res.status(404).json({ status: "error", error: error.message });
   }
@@ -33,7 +33,7 @@ export const addProductToCart = async (req, res) => {
     const result = await cartService.addProductToCart(cid, pid);
     return await res.status(201).json({ status: "success", payload: result });
   } catch (error) {
-    return res.status(404).json({ status: "error", error: error.message });
+    return res.status(409).json({ status: "error", error: error.message });
   }
 };
 
@@ -55,12 +55,12 @@ export const quantityProductToCart = async (req, res) => {
       Number(quantity),
     );
 
-    return res.status(201).json({
+    return res.status(200).json({
       status: "success",
       payload: result,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(409).json({
       status: "error",
       error: error.message,
     });
@@ -68,12 +68,19 @@ export const quantityProductToCart = async (req, res) => {
 };
 
 export const updateCart = async (req, res) => {
-  const { cid } = req.params;
-  const updateData = req.body;
+  try {
+    const { cid } = req.params;
+    const updateData = req.body;
 
-  const result = await cartService.updateCart(cid, updateData);
+    const result = await cartService.updateCart(cid, updateData);
 
-  return res.status(201).json({ status: "succes", payload: result });
+    return res.status(201).json({ status: "succes", payload: result });
+  } catch (error) {
+    return res.status(409).json({
+      status: "error",
+      error: error.message,
+    });
+  }
 };
 // D - Delete
 
@@ -82,12 +89,12 @@ export const deletedProduct = async (req, res) => {
     const { cid, pid } = req.params;
     const result = await cartService.deleteProduct(cid, pid);
 
-    return await res.status(201).json({
+    return await res.status(200).json({
       status: "successs el siguiente producto fue eliminado del carrito: ",
       payload: result,
     });
   } catch (error) {
-    return res.status(404).json({ status: "error", error: error.message });
+    return res.status(409).json({ status: "error", error: error.message });
   }
 };
 
@@ -97,7 +104,7 @@ export const emptyCart = async (req, res) => {
 
     const result = await cartService.emptyCart(cid);
 
-    res.status(201).json({ status: "success", message: "Carrito vaciado" });
+    res.status(200).json({ status: "success", message: "Carrito vaciado" });
   } catch (error) {
     return res.status(404).json({ status: "error", error: error.message });
   }

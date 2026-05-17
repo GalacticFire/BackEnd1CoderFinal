@@ -8,7 +8,15 @@
 
       <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
-
+          {{#if this.status}}
+            <span class="badge bg-success">
+              Disponible
+            </span>
+          {{else}}
+            <span class="badge bg-danger">
+              No disponible
+            </span>
+          {{/if}}
           <div class="card-body">
             <h5 class="card-title">
               {{this.title}}
@@ -35,15 +43,6 @@
               </li>
             </ul>
 
-            {{#if this.status}}
-              <span class="badge bg-success">
-                Disponible
-              </span>
-            {{else}}
-              <span class="badge bg-danger">
-                No disponible
-              </span>
-            {{/if}}
             {{#if this.status}}
               <button
                 class="btn btn-primary w-100 add-to-cart"
