@@ -66,7 +66,10 @@ export const renderCart = async (req, res) => {
         title: item.product.title,
         description: item.product.description,
         price: item.product.price,
-        thumbnail: item.product.thumbnails[0],
+        thumbnail:
+          item.product.thumbnails?.length > 0
+            ? item.product.thumbnails[0]
+            : null,
         quantity: item.quantity,
         subtotal: subtotal.toFixed(2),
       };
