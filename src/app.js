@@ -4,13 +4,13 @@ import handlebars from "express-handlebars";
 import { config } from "./config/config.js";
 import { connectDB } from "./config/db.js";
 import { apiRouter, viewRouter } from "./routes/index.js";
-import __dirname from "./utils/path.js";
+import { __dirname, handlebarsHelpers } from "./utils/index.js";
 
 connectDB();
 
 const app = express();
 
-app.engine("handlebars", handlebars.engine());
+app.engine("handlebars", handlebars.engine({ helpers: handlebarsHelpers }));
 app.set("views", path.join(__dirname, "..", "views"));
 app.set("view engine", "handlebars");
 

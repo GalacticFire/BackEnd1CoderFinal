@@ -8,10 +8,8 @@
 
       <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
-          {{#if this.status}}
-            <span class="badge bg-success">
-              Disponible
-            </span>
+          {{#if (gt this.stock 0)}}
+            <span class="badge bg-success">Disponible</span>
           {{else}}
             <span class="badge bg-danger">
               No disponible
@@ -42,26 +40,8 @@
                 {{this.category}}
               </li>
             </ul>
-
-            {{#if this.status}}
-              <button
-                class="btn btn-primary w-100 add-to-cart"
-                data-id="{{this._id}}"
-              >
-                Añadir al carrito
-              </button>
-            {{else}}
-              <button class="btn btn-secondary w-100" disabled>
-                Sin stock
-              </button>
-            {{/if}}
-            <input
-              type="number"
-              min="1"
-              max="{{this.stock}}"
-              value="1"
-              class="form-control mb-2 quantity"
-            />
+            <a href="products/{{this._id}}" class="btn btn-primary w-100">Ver
+              detalles</a>
           </div>
 
         </div>
@@ -83,7 +63,7 @@
 <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
 
   {{#if hasPrevPage}}
-    <a class="btn btn-outline-dark" href="/?page={{prevPage}}">
+    <a class="btn btn-outline-dark" href="products?page={{prevPage}}">
       ← Anterior
     </a>
   {{/if}}
@@ -96,7 +76,7 @@
   </span>
 
   {{#if hasNextPage}}
-    <a class="btn btn-outline-dark" href="/?page={{nextPage}}">
+    <a class="btn btn-outline-dark" href="/products?page={{nextPage}}">
       Siguiente →
     </a>
   {{/if}}

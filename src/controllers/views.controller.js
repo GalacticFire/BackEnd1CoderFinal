@@ -1,3 +1,4 @@
+import { ppid, title } from "process";
 import CartDAO from "../dao/cart.dao.js";
 import ProductDAO from "../dao/product.dao.js";
 
@@ -25,6 +26,56 @@ export const renderProducts = async (req, res) => {
       hasNextPage: result.hasNextPage,
       prevPage: result.prevPage,
       nextPage: result.nextPage,
+    });
+  } catch (error) {
+    res.status(500).send("Error interno del servidor");
+  }
+};
+
+export const renderProductDetail = async (req, res) => {
+  try {
+    const { pid } = req.params;
+    const result = await ProductService.getProductByID(pid);
+
+    res.render("productDetail", {
+      product: result,
+    });
+  } catch (error) {
+    res.status(500).send("Error interno del servidor");
+  }
+};
+
+export const renderCart = async (req, res) => {
+  try {
+    const { cid } = req.params;
+    const cart = await cartService.getCartByID(cid);
+
+    if (!cart) {
+      return res.status(404).send("Carrito no encontrado");
+    }
+
+    const plainCart = cart.toObject();
+    let total = 0;
+
+    const items = plainCart.products.map((item) => {
+      const subtotal = item.quantity * item.product.price;
+      total += subtotal;
+
+      return {
+        _id: item.product._id,
+        title: item.product.title,
+        description: item.product.description,
+        price: item.product.price,
+        thumbnail: item.product.thumbnails[0],
+        quantity: item.quantity,
+        subtotal: subtotal.toFixed(2),
+      };
+    });
+    res.render("cart", {
+      cart: {
+        items: items,
+        total: total.toFixed(2),
+      },
     });
   } catch (error) {
     res.status(500).send("Error interno del servidor");

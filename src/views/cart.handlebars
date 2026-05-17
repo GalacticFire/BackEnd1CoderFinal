@@ -1,0 +1,149 @@
+<div class="container mt-4">
+
+  <h1 class="mb-4">Carrito de Compras</h1>
+
+  {{#if cart.items.length}}
+
+    <div class="row">
+
+      <div class="col-md-8">
+
+        {{#each cart.items}}
+
+          <div class="card mb-3 shadow-sm">
+
+            <div class="row g-0">
+
+              <div
+                class="col-md-3 d-flex align-items-center justify-content-center p-2"
+              >
+                {{#if this.thumbnail}}
+                  <img
+                    src="{{this.thumbnail}}"
+                    alt="{{this.title}}"
+                    class="img-fluid rounded"
+                    style="max-height: 100px;"
+                  />
+                {{else}}
+                  <div class="text-muted">Sin imagen</div>
+                {{/if}}
+              </div>
+
+              <div class="col-md-9">
+
+                <div class="card-body">
+
+                  <h5 class="card-title">
+                    {{this.title}}
+                  </h5>
+
+                  <p class="card-text text-muted mb-1">
+                    {{this.description}}
+                  </p>
+
+                  <div
+                    class="d-flex justify-content-between align-items-center mt-2"
+                  >
+
+                    <div>
+                      <strong>Precio:</strong>
+                      ${{this.price}}
+                    </div>
+
+                    <div>
+                      <strong>Cantidad:</strong>
+                      {{this.quantity}}
+                    </div>
+
+                  </div>
+
+                  <div class="mt-2">
+                    <strong>Subtotal:</strong>
+                    ${{this.subtotal}}
+                  </div>
+
+                  <div class="mt-3 d-flex gap-2">
+
+                    <button
+                      class="btn btn-sm btn-outline-primary update-qty"
+                      data-id="{{this._id}}"
+                    >
+                      +
+                    </button>
+
+                    <button
+                      class="btn btn-sm btn-outline-secondary update-qty"
+                      data-id="{{this._id}}"
+                    >
+                      -
+                    </button>
+
+                    <button
+                      class="btn btn-sm btn-outline-danger remove-item"
+                      data-id="{{this._id}}"
+                    >
+                      Eliminar
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        {{/each}}
+
+      </div>
+
+      <!-- RESUMEN -->
+      <div class="col-md-4">
+
+        <div class="card shadow-sm">
+
+          <div class="card-body">
+
+            <h4 class="card-title mb-3">Resumen</h4>
+
+            <p class="mb-2">
+              <strong>Productos:</strong>
+              {{cart.items.length}}
+            </p>
+
+            <p class="mb-3">
+              <strong>Total:</strong>
+              ${{cart.total}}
+            </p>
+
+            <button class="btn btn-success w-100 mb-2">
+              Finalizar compra
+            </button>
+
+            <a href="/products" class="btn btn-outline-dark w-100">
+              Seguir comprando
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  {{else}}
+
+    <div class="alert alert-warning">
+      Tu carrito está vacío.
+    </div>
+
+    <a href="/products" class="btn btn-primary">
+      Ir a productos
+    </a>
+
+  {{/if}}
+
+</div>
