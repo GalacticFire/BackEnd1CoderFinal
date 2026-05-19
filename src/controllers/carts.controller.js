@@ -25,16 +25,6 @@ export const getCartByID = async (req, res) => {
   }
 };
 
-// export const getProductInCart = async (req, res) => {
-//   try {
-//     const { cid, pid } = req.params;
-//     const result = await cartService.getProductInCart(cid, pid);
-//     return await res.status(200).json(result);
-//   } catch (error) {
-//     return res.status(404).json({ status: "error", error: error.message });
-//   }
-// };
-
 // U - Update
 
 export const addProductToCart = async (req, res) => {
@@ -42,6 +32,7 @@ export const addProductToCart = async (req, res) => {
     const { cid, pid } = req.params;
     const { quantity = 1 } = req.body;
     const result = await cartService.addProductToCart(cid, pid, quantity);
+    req.io.emit("stockUpdated", { message: "El stock ha cambiado" });
     return await res.status(201).json({ status: "success", payload: result });
   } catch (error) {
     return res.status(409).json({ status: "error", error: error.message });
@@ -100,6 +91,7 @@ export const deletedProduct = async (req, res) => {
     const { cid, pid } = req.params;
     const result = await cartService.deleteProduct(cid, pid);
 
+    req.io.emit("stockUpdated", { message: "El stock ha cambiado" });
     return await res.status(200).json({
       status: "successs el siguiente producto fue eliminado del carrito: ",
       payload: result,
@@ -115,6 +107,7 @@ export const emptyCart = async (req, res) => {
 
     const result = await cartService.emptyCart(cid);
 
+    req.io.emit("stockUpdated", { message: "El stock ha cambiado." });
     res.status(200).json({ status: "success", message: "Carrito vaciado" });
   } catch (error) {
     return res.status(404).json({ status: "error", error: error.message });

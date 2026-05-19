@@ -1,8 +1,8 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-12 text-center mb-4">
-      <h1 class="fw-bold">Resumen de tu Carrito</h1>
-      <p class="text-muted">Revisá los productos seleccionados antes de finalizar tu compra.</p>
+      <h1 class="fw-bold">Gestión de tu Carrito</h1>
+      <p class="text-muted">Administrá tus productos y confirma tu pedido.</p>
     </div>
   </div>
 
@@ -19,12 +19,12 @@
                     <th class="ps-4 py-3">Producto</th>
                     <th class="text-center py-3">Cantidad</th>
                     <th class="text-center py-3">Precio</th>
-                    <th class="text-end pe-4 py-3">Subtotal</th>
+                    <th class="text-end pe-4 py-3">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {{#each cart.items}}
-                    <tr>
+                    <tr class="product-row">
                       <td class="ps-4 py-3">
                         <div class="d-flex align-items-center gap-3">
                           {{#if this.thumbnail}}
@@ -36,13 +36,21 @@
                           {{/if}}
                           <div>
                             <h6 class="mb-0 fw-bold">{{this.title}}</h6>
-                            <small class="text-muted">{{this.description}}</small>
+                            <small class="text-muted d-block text-truncate" style="max-width: 150px;">{{this.description}}</small>
                           </div>
                         </div>
                       </td>
                       <td class="text-center fw-semibold">{{this.quantity}} u.</td>
                       <td class="text-center text-muted">${{this.price}}</td>
-                      <td class="text-end pe-4 fw-bold text-primary">${{this.subtotal}}</td>
+                      <td class="text-end pe-4">
+                        <button 
+                          class="btn btn-sm btn-outline-danger remove-item-btn" 
+                          data-id="{{this._id}}"
+                          title="Eliminar producto"
+                        >
+                          🗑️ Eliminar
+                        </button>
+                      </td>
                     </tr>
                   {{/each}}
                 </tbody>
@@ -51,10 +59,13 @@
           </div>
         </div>
         
-        <div class="mt-4">
+        <div class="d-flex justify-content-between align-items-center mt-4">
           <a href="/products" class="btn btn-link text-decoration-none text-dark ps-0">
             ← Continuar comprando
           </a>
+          <button id="empty-cart-btn" class="btn btn-outline-danger rounded-pill px-4 fw-bold">
+            🧹 Vaciar Carrito
+          </button>
         </div>
       </div>
 
@@ -65,7 +76,7 @@
             <h4 class="fw-bold mb-4">Total de la Compra</h4>
             
             <div class="d-flex justify-content-between mb-3">
-              <span class="text-secondary">Productos ({{cart.items.length}})</span>
+              <span class="text-secondary">Subtotal</span>
               <span>${{cart.total}}</span>
             </div>
             
@@ -77,11 +88,11 @@
             <hr class="border-secondary">
             
             <div class="d-flex justify-content-between mb-4">
-              <span class="fs-5">Monto Total</span>
+              <span class="fs-5">Total Final</span>
               <span class="fs-4 fw-bold text-info">${{cart.total}}</span>
             </div>
             
-            <button class="btn btn-info w-100 rounded-pill py-3 fw-bold shadow-sm" onclick="alert('Funcionalidad de pago no requerida por la consigna.')">
+            <button class="btn btn-info w-100 rounded-pill py-3 fw-bold shadow-sm" onclick="alert('¡Gracias por tu compra! (Simulada)')">
               Finalizar Pedido
             </button>
           </div>

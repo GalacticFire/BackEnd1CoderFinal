@@ -65,6 +65,8 @@ export default class CartDAO {
         { returnDocument: "after", lean: true },
       );
     }
+    
+
     return updatedCart;
   };
 

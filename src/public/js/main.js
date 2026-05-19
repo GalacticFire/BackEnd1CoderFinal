@@ -1,5 +1,12 @@
 let cartId = localStorage.getItem("cartId");
 
+const socket = io();
+
+socket.on("stockUpdated", (data) => {
+  console.log(data.message);
+  window.location.reload();
+});
+
 const cartLink = document.getElementById("cart-link");
 
 async function checkCart() {
@@ -26,9 +33,37 @@ async function addProductToCart(cid, pid, quantity) {
     if (response.ok) {
       alert("Producto Agregado");
     } else {
-      alert(`Error: ${result.error}`);
+      console.error(error);
     }
   } catch (error) {}
+}
+
+async function deletedProductInCart(cid, pid) {
+  try {
+    const response = await fetch(`/api/carts/${cid}/products/${pid}`, {
+      method: "DELETE",
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert("Producto eliminado del carrito.");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function emptyCart(cid) {
+  try {
+    const response = await fetch(`/api/carts/${cid}`, {
+      method: "DELETE",
+    });
+    const result = await response.json();
+    if (response.ok) alert("Has vaciado tu carrito.");
+  } catch (error) {
+    return `Error: ${result.error}`;
+  }
 }
 
 document.addEventListener("click", async (e) => {
@@ -61,5 +96,18 @@ document.addEventListener("click", async (e) => {
     const productId = btn.dataset.id;
 
     return await addProductToCart(cid, pid, quantity);
+  }
+
+  if (e.target.classList.contains("remove-item-btn")) {
+    const pid = e.target.getAttribute("data-id");
+    const cid = localStorage.getItem("cartId");
+
+    return await deletedProductInCart(cid, pid);
+  }
+
+  if (e.target.id === "empty-cart-btn") {
+    const cid = localStorage.getItem("cartId");
+
+    return await emptyCart(cid);
   }
 });

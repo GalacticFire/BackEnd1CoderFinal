@@ -5,6 +5,7 @@ const productService = new ProductDAO();
 export const createProduct = async (req, res) => {
   try {
     const result = await productService.createProduct(req.body);
+    req.io.emit("stockUpdated", { message: "El stock ha cambiado" });
     res.status(201).json({ status: "success", payload: result });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
@@ -71,7 +72,7 @@ export const updateProduct = async (req, res) => {
     if (!updateData) {
       return res.status(400).json(error, "Error en los campos actualizar.");
     }
-
+    req.io.emit("stockUpdated", { message: "El stock ha cambiado" });
     return res.status(200).json({ status: "success", payload: updateData });
   } catch (error) {
     return res.status(500).json({
@@ -87,6 +88,7 @@ export const deleteProduct = async (req, res) => {
   try {
     const { pid } = req.params;
     const result = await productService.deleteProduct(pid);
+    req.io.emit("stockUpdated", { message: "El stock ha cambiado" });
     return res.status(201).json({ status: "Delete", payload: result });
   } catch (error) {
     return res.status(400).json("No se pudo elimnar");
