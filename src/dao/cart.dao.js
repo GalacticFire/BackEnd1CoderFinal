@@ -16,15 +16,33 @@ export default class CartDAO {
     return await CartModel.findById(cid);
   };
 
+  // getProductInCart = async (cid, pid) => {
+  //   try {
+  //     const cart = await CartModel.findById(cid).lean();
+  //     if (!cart) throw new Error("El carrito no existe");
+  //     const productInCart = cart.products.find(
+  //       (p) => p.product?._id?.toString() === pid,
+  //     );
+
+  //     if (productInCart) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     throw new Error(null);
+  //   }
+  // };
+
   // U - Update
 
-  addProductToCart = async (cid, pid) => {
+  addProductToCart = async (cid, pid, quantity = 1) => {
     const updatedProduct = await ProductModel.findOneAndUpdate(
       {
         _id: pid,
-        stock: { $gt: 0 },
+        stock: { $gte: quantity },
       },
-      { $inc: { stock: -1 } },
+      { $inc: { stock: -quantity } },
       { returnDocument: "after", lean: true },
     );
 
@@ -34,7 +52,7 @@ export default class CartDAO {
 
     const updatedCart = await CartModel.findOneAndUpdate(
       { _id: cid, "products.product": pid },
-      { $inc: { "products.$.quantity": 1 } },
+      { $inc: { "products.$.quantity": quantity } },
       { returnDocument: "after", lean: true },
     );
 
@@ -42,7 +60,7 @@ export default class CartDAO {
       return await CartModel.findByIdAndUpdate(
         cid,
         {
-          $push: { products: { product: pid } },
+          $push: { products: { product: pid, quantity: quantity } },
         },
         { returnDocument: "after", lean: true },
       );

@@ -19,18 +19,29 @@ export const getCartByID = async (req, res) => {
   try {
     const { cid } = req.params;
     const result = await cartService.getCartByID(cid);
-    return await res.status(302).json({ status: "success", payload: result });
+    return await res.status(200).json({ status: "success", payload: result });
   } catch (error) {
     return res.status(404).json({ status: "error", error: error.message });
   }
 };
+
+// export const getProductInCart = async (req, res) => {
+//   try {
+//     const { cid, pid } = req.params;
+//     const result = await cartService.getProductInCart(cid, pid);
+//     return await res.status(200).json(result);
+//   } catch (error) {
+//     return res.status(404).json({ status: "error", error: error.message });
+//   }
+// };
 
 // U - Update
 
 export const addProductToCart = async (req, res) => {
   try {
     const { cid, pid } = req.params;
-    const result = await cartService.addProductToCart(cid, pid);
+    const { quantity = 1 } = req.body;
+    const result = await cartService.addProductToCart(cid, pid, quantity);
     return await res.status(201).json({ status: "success", payload: result });
   } catch (error) {
     return res.status(409).json({ status: "error", error: error.message });

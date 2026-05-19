@@ -1,16 +1,67 @@
+/* =========================================
+   Configuración Base y Tipografía
+   ========================================= */
 body {
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
+  /* Fuentes de sistema priorizando tipografías modernas y legibles */
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  background-color: #000000;
+  color: #f5f5f7;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
+main {
+  flex: 1; /* Empuja el footer hacia abajo */
+}
+
+/* =========================================
+   Navegación (Glassmorphism)
+   ========================================= */
 .navbar {
   margin-bottom: 2rem;
 }
 
-.card-product {
-  transition: transform 0.2s ease;
+.navbar-glass {
+  background-color: rgba(18, 18, 18, 0.75) !important;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.card-product:hover {
+/* =========================================
+   Tarjetas y Componentes (Hover Effects)
+   ========================================= */
+.card {
+  /* Transición más suave (cubic-bezier) para el movimiento */
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background-color: #121212; /* Fondo de tarjeta ligeramente más claro que el body */
+}
+
+.card:hover {
   transform: translateY(-4px);
+  /* Sombra sutil y clara para resaltar en modo oscuro */
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Ajustes para tarjetas que usan bg-light de Bootstrap en modo oscuro */
+.card.bg-light {
+  background-color: #1c1c1e !important;
+  color: #f5f5f7 !important;
+}
+
+/* =========================================
+   Utilidades Extra
+   ========================================= */
+.tracking-tight {
+  letter-spacing: -0.5px;
 }

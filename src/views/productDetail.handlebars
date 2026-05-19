@@ -4,7 +4,7 @@
 
     <div class="col-md-6">
       <div class="card shadow-sm">
-        <div class="card-body">
+        <div class="card-body product-card">
 
           {{#if (gt product.stock 0)}}
             <span class="badge bg-success mb-2">Disponible</span>
@@ -55,7 +55,7 @@
                 min="1"
                 max="{{product.stock}}"
                 value="1"
-                class="form-control quantity"
+                class="form-control quantity-input"
                 data-id="{{this.quantity}}"
               />
             </div>
