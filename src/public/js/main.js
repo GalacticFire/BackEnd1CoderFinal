@@ -43,7 +43,7 @@ document.addEventListener("click", async (e) => {
     const currentCid = localStorage.getItem("cartId");
 
     if (currentCid) {
-      window.location.href = `/carts/${cartId}`;
+      window.location.href = `/carts/${currentCid}`;
     } else {
       alert("Tu carrito se está creando, intenta nuevamente");
     }

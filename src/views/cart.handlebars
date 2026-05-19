@@ -1,131 +1,106 @@
-<div class="container mt-5 mb-5">
-
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0 fw-bold">
-      <i class="bi bi-cart3"></i> Tu Carrito
-    </h1>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h1 class="fw-bold">Resumen de tu Carrito</h1>
+      <p class="text-muted">Revisá los productos seleccionados antes de finalizar tu compra.</p>
+    </div>
   </div>
 
   {{#if cart.items.length}}
     <div class="row g-4">
-
       <!-- LISTA DE PRODUCTOS -->
       <div class="col-lg-8">
-        <div class="card shadow-sm border-0">
-          <div class="card-header bg-transparent border-bottom py-3">
-            <h5 class="mb-0 text-muted">Artículos en tu carrito ({{cart.items.length}})</h5>
-          </div>
-          
+        <div class="card border-0 shadow-sm rounded-4">
           <div class="card-body p-0">
-            {{#each cart.items}}
-              <div class="row g-0 border-bottom p-3 align-items-center border-secondary-subtle {{#if @last}}border-bottom-0{{/if}}">
-                
-                <!-- Imagen -->
-                <div class="col-md-2 col-4 text-center">
-                  {{#if this.thumbnail}}
-                    <img
-                      src="{{this.thumbnail}}"
-                      alt="{{this.title}}"
-                      class="img-fluid rounded object-fit-cover shadow-sm"
-                      style="width: 80px; height: 80px;"
-                    />
-                  {{else}}
-                    <!-- Se cambió a un fondo oscuro para que coincida con el tema -->
-                    <div class="bg-body-tertiary rounded d-flex align-items-center justify-content-center text-muted" style="width: 80px; height: 80px; margin: 0 auto;">
-                      <small>Sin img</small>
-                    </div>
-                  {{/if}}
-                </div>
-
-                <!-- Detalles -->
-                <div class="col-md-5 col-8 ps-3">
-                  <h5 class="card-title mb-1 fw-bold">{{this.title}}</h5>
-                  <p class="card-text text-muted small mb-2 text-truncate">{{this.description}}</p>
-                  <div class="text-primary fw-bold">${{this.price}} c/u</div>
-                </div>
-
-                <!-- Controles de Cantidad y Subtotal -->
-                <div class="col-md-5 col-12 mt-3 mt-md-0 d-flex justify-content-between align-items-center ps-md-3">
-                  
-                  <!-- Input Group Cantidad -->
-                  <div class="input-group input-group-sm" style="width: 120px;">
-                    <button class="btn btn-outline-secondary update-qty" data-id="{{this._id}}" data-action="decrease">-</button>
-                    <!-- Se quitó el bg-white para que respete el input oscuro -->
-                    <input type="text" class="form-control text-center" value="{{this.quantity}}" readonly>
-                    <button class="btn btn-outline-secondary update-qty" data-id="{{this._id}}" data-action="increase">+</button>
-                  </div>
-
-                  <!-- Subtotal y Botón Eliminar -->
-                  <div class="d-flex align-items-center gap-3">
-                    <span class="fw-bold fs-7 mx-3">${{this.subtotal}}</span>
-                    <button class="btn btn-sm btn-outline-danger border-0 remove-item" data-id="{{this._id}}" title="Eliminar producto">
-                      <i class="bi bi-trash"></i> <span class="d-none d-md-inline">Eliminar</span>
-                    </button>
-                  </div>
-
-                </div>
-              </div>
-            {{/each}}
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th class="ps-4 py-3">Producto</th>
+                    <th class="text-center py-3">Cantidad</th>
+                    <th class="text-center py-3">Precio</th>
+                    <th class="text-end pe-4 py-3">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each cart.items}}
+                    <tr>
+                      <td class="ps-4 py-3">
+                        <div class="d-flex align-items-center gap-3">
+                          {{#if this.thumbnail}}
+                            <img src="{{this.thumbnail}}" alt="{{this.title}}" class="rounded shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+                          {{else}}
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                              <i class="bi bi-image text-muted"></i>
+                            </div>
+                          {{/if}}
+                          <div>
+                            <h6 class="mb-0 fw-bold">{{this.title}}</h6>
+                            <small class="text-muted">{{this.description}}</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-center fw-semibold">{{this.quantity}} u.</td>
+                      <td class="text-center text-muted">${{this.price}}</td>
+                      <td class="text-end pe-4 fw-bold text-primary">${{this.subtotal}}</td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
           </div>
-
-          <!-- Pie del listado: Vaciar carrito -->
-          <div class="card-footer bg-transparent py-3 d-flex justify-content-end align-items-center">
-            <!-- BOTÓN DE VACIAR CARRITO -->
-            <button class="btn btn-outline-danger btn-sm" id="empty-cart-btn">
-              <i class="bi bi-trash3"></i> Vaciar carrito
-            </button>
-          </div>
+        </div>
+        
+        <div class="mt-4">
+          <a href="/products" class="btn btn-link text-decoration-none text-dark ps-0">
+            ← Continuar comprando
+          </a>
         </div>
       </div>
 
-      <!-- RESUMEN DE COMPRA -->
+      <!-- RESUMEN DE PAGO -->
       <div class="col-lg-4">
-        <!-- Cambiado a bg-body-tertiary para adaptarse al modo oscuro -->
-        <div class="card shadow-sm border-0 bg-body-tertiary">
-          <div class="card-body p-4">
-            <h4 class="card-title mb-4 fw-bold">Resumen</h4>
+        <div class="card border-0 shadow-sm rounded-4 bg-dark text-white p-3">
+          <div class="card-body">
+            <h4 class="fw-bold mb-4">Total de la Compra</h4>
             
             <div class="d-flex justify-content-between mb-3">
-              <span class="text-muted">Productos ({{cart.items.length}})</span>
-              <span class="fw-bold">${{cart.total}}</span>
+              <span class="text-secondary">Productos ({{cart.items.length}})</span>
+              <span>${{cart.total}}</span>
             </div>
             
-            <hr class="my-4 text-muted border-secondary-subtle">
-            
-            <div class="d-flex justify-content-between mb-4 align-items-center">
-              <span class="fs-5 fw-bold">Total</span>
-              <span class="fs-3 fw-bold text-success">${{cart.total}}</span>
+            <div class="d-flex justify-content-between mb-4">
+              <span class="text-secondary">Envío</span>
+              <span class="text-success fw-bold">¡Gratis!</span>
             </div>
-
-            <button class="btn btn-success btn-lg w-100 mb-3 shadow-sm fw-bold">
-              Proceder al pago
+            
+            <hr class="border-secondary">
+            
+            <div class="d-flex justify-content-between mb-4">
+              <span class="fs-5">Monto Total</span>
+              <span class="fs-4 fw-bold text-info">${{cart.total}}</span>
+            </div>
+            
+            <button class="btn btn-info w-100 rounded-pill py-3 fw-bold shadow-sm" onclick="alert('Funcionalidad de pago no requerida por la consigna.')">
+              Finalizar Pedido
             </button>
-
-            <!-- BOTÓN DE SEGUIR COMPRANDO RESTAURADO AQUÍ -->
-            <a href="/products" class="btn btn-outline-light btn-lg w-100 shadow-sm fw-bold">
-              Seguir comprando
-            </a>
-
           </div>
         </div>
       </div>
-
     </div>
 
   {{else}}
-
     <!-- ESTADO VACÍO -->
-    <div class="text-center py-5 mt-5">
-      <div class="display-1 text-muted mb-4">
-        <i class="bi bi-cart-x"></i>
+    <div class="row justify-content-center py-5">
+      <div class="col-md-6 text-center">
+        <div class="alert alert-light border shadow-sm p-5 rounded-4">
+          <h3 class="fw-bold text-muted">Tu carrito está vacío</h3>
+          <p class="text-muted mb-4">¡Date una vuelta por el catálogo y sumá lo que más te guste!</p>
+          <a href="/products" class="btn btn-dark rounded-pill px-5 py-2">
+            Ver Productos
+          </a>
+        </div>
       </div>
-      <h2 class="text-muted mb-3">Tu carrito está vacío</h2>
-      <p class="text-muted mb-4">¡Aún no has agregado productos a tu compra!</p>
-      <a href="/products" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">
-        Explorar productos
-      </a>
     </div>
-
   {{/if}}
-
 </div>
