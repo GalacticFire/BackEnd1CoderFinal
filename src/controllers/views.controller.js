@@ -46,41 +46,34 @@ export const renderProductDetail = async (req, res) => {
 };
 
 export const renderCart = async (req, res) => {
-  try {
-    const { cid } = req.params;
-    const cart = await cartService.getCartByID(cid);
+  const { cid } = req.params;
+  const cart = await cartService.getCartByID(cid);
+  if (!cart) return res.render("404", { meesage: "Carrito no encontrado" });
+  res.render("cart", { cart: cart.toObject() });
 
-    if (!cart) {
-      return res.status(404).send("Carrito no encontrado");
-    }
+  // let total = 0;
 
-    const plainCart = cart.toObject();
-    let total = 0;
+  // const items = plainCart.products.map((item) => {
+  //   const subtotal = item.quantity * item.product.price;
+  //   total += subtotal;
 
-    const items = plainCart.products.map((item) => {
-      const subtotal = item.quantity * item.product.price;
-      total += subtotal;
-
-      return {
-        _id: item.product._id,
-        title: item.product.title,
-        description: item.product.description,
-        price: item.product.price,
-        thumbnail:
-          item.product.thumbnails?.length > 0
-            ? item.product.thumbnails[0]
-            : null,
-        quantity: item.quantity,
-        subtotal: subtotal.toFixed(2),
-      };
-    });
-    res.render("cart", {
-      cart: {
-        items: items,
-        total: total.toFixed(2),
-      },
-    });
-  } catch (error) {
-    res.status(500).send("Error interno del servidor");
-  }
+  //   return {
+  //     _id: item.product._id,
+  //     title: item.product.title,
+  //     description: item.product.description,
+  //     price: item.product.price,
+  //     thumbnail:
+  //       item.product.thumbnails?.length > 0
+  //         ? item.product.thumbnails[0]
+  //         : null,
+  //     quantity: item.quantity,
+  //     subtotal: subtotal.toFixed(2),
+  //   };
+  // });
+  // res.render("cart", {
+  //   cart: {
+  //     items: items,
+  //     total: total.toFixed(2),
+  //   },
+  // });
 };

@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  {{#if cart.items.length}}
+  {{#if cart.products.length}}
     <div class="row g-4">
       <!-- LISTA DE PRODUCTOS -->
       <div class="col-lg-8">
@@ -18,37 +18,55 @@
                   <tr>
                     <th class="ps-4 py-3">Producto</th>
                     <th class="text-center py-3">Cantidad</th>
-                    <th class="text-center py-3">Precio</th>
+                    <th class="text-center py-3">Precio unitario</th>
+                    <th class="text-end pe-4 py-3">Total</th>
                     <th class="text-end pe-4 py-3">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each cart.items}}
+                  {{#each cart.products}}
                     <tr class="product-row">
                       <td class="ps-4 py-3">
                         <div class="d-flex align-items-center gap-3">
-                          {{#if this.thumbnail}}
-                            <img src="{{this.thumbnail}}" alt="{{this.title}}" class="rounded shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+                          {{#if this.product.thumbnail}}
+                            <img
+                              src="{{this.product.thumbnail}}"
+                              alt="{{this.product.title}}"
+                              class="rounded shadow-sm"
+                              style="width: 50px; height: 50px; object-fit: cover;"
+                            />
                           {{else}}
-                            <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <div
+                              class="bg-light rounded d-flex align-items-center justify-content-center"
+                              style="width: 50px; height: 50px;"
+                            >
                               <i class="bi bi-image text-muted"></i>
                             </div>
                           {{/if}}
                           <div>
                             <h6 class="mb-0 fw-bold">{{this.title}}</h6>
-                            <small class="text-muted d-block text-truncate" style="max-width: 150px;">{{this.description}}</small>
+                            <small
+                              class="text-muted d-block text-truncate"
+                              style="max-width: 150px;"
+                            >{{this.product.description}}</small>
                           </div>
                         </div>
                       </td>
-                      <td class="text-center fw-semibold">{{this.quantity}} u.</td>
-                      <td class="text-center text-muted">${{this.price}}</td>
+                      <td class="text-center fw-semibold">{{this.quantity}}
+                        u.</td>
+                      <td
+                        class="text-center text-muted"
+                      >${{this.product.price}}</td>
+                      <td class="text-center text-muted">
+                        ${{multiply this.product.price this.quantity}}</td>
                       <td class="text-end pe-4">
-                        <button 
-                          class="btn btn-sm btn-outline-danger remove-item-btn" 
-                          data-id="{{this._id}}"
+                        <button
+                          class="btn btn-sm btn-outline-danger remove-item-btn"
+                          data-id="{{this.product._id}}"
                           title="Eliminar producto"
                         >
-                          🗑️ Eliminar
+                          <i class="bi bi-x-circle-fill"></i>
+                          Eliminar
                         </button>
                       </td>
                     </tr>
@@ -58,13 +76,20 @@
             </div>
           </div>
         </div>
-        
+
         <div class="d-flex justify-content-between align-items-center mt-4">
-          <a href="/products" class="btn btn-link text-decoration-none text-dark ps-0">
+          <a
+            href="/products"
+            class="btn btn-primary btn btn-light rounded-pill px-3"
+          >
             ← Continuar comprando
           </a>
-          <button id="empty-cart-btn" class="btn btn-outline-danger rounded-pill px-4 fw-bold">
-            🧹 Vaciar Carrito
+          <button
+            id="empty-cart-btn"
+            class="btn btn-outline-danger rounded-pill px-4 fw-bold"
+          >
+            <i class="bi bi-cart-x"></i>
+            Vaciar Carrito
           </button>
         </div>
       </div>
@@ -74,25 +99,30 @@
         <div class="card border-0 shadow-sm rounded-4 bg-dark text-white p-3">
           <div class="card-body">
             <h4 class="fw-bold mb-4">Total de la Compra</h4>
-            
+
             <div class="d-flex justify-content-between mb-3">
               <span class="text-secondary">Subtotal</span>
-              <span>${{cart.total}}</span>
+              <span>${{totalCart cart.products}}</span>
+
             </div>
-            
+
             <div class="d-flex justify-content-between mb-4">
               <span class="text-secondary">Envío</span>
               <span class="text-success fw-bold">¡Gratis!</span>
             </div>
-            
-            <hr class="border-secondary">
-            
+
+            <hr class="border-secondary" />
+
             <div class="d-flex justify-content-between mb-4">
               <span class="fs-5">Total Final</span>
-              <span class="fs-4 fw-bold text-info">${{cart.total}}</span>
+              <span class="fs-4 fw-bold text-info">${{totalCart cart.products}}
+              </span>
             </div>
-            
-            <button class="btn btn-info w-100 rounded-pill py-3 fw-bold shadow-sm" onclick="alert('¡Gracias por tu compra! (Simulada)')">
+
+            <button
+              class="btn btn-info w-100 rounded-pill py-3 fw-bold shadow-sm"
+              onclick="alert('¡Gracias por tu compra! (Simulada)')"
+            >
               Finalizar Pedido
             </button>
           </div>
@@ -106,7 +136,8 @@
       <div class="col-md-6 text-center">
         <div class="alert alert-light border shadow-sm p-5 rounded-4">
           <h3 class="fw-bold text-muted">Tu carrito está vacío</h3>
-          <p class="text-muted mb-4">¡Date una vuelta por el catálogo y sumá lo que más te guste!</p>
+          <p class="text-muted mb-4">¡Date una vuelta por el catálogo y sumá lo
+            que más te guste!</p>
           <a href="/products" class="btn btn-dark rounded-pill px-5 py-2">
             Ver Productos
           </a>

@@ -9,7 +9,7 @@ export default class CartDAO {
 
   // R - Read
   getCarts = async (filter, options) => {
-    return await CartModel.getPageinated(filter, { options, lean: true });
+    return await CartModel.getPaginate(filter, { options, lean: true });
   };
 
   getCartByID = async (cid) => {
