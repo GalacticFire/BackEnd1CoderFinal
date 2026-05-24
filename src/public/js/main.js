@@ -67,21 +67,17 @@ async function emptyCart(cid) {
 }
 
 document.addEventListener("click", async (e) => {
-  // if (e.target.classList.contains("add-to-cart")) {
-  //   const pid = e.target.getAttribute("data-id");
-  //   const cid = localStorage.getItem("cartId");
-  //   return addProductToCart(cid, pid);
-  // }
-
-  if (e.target.id === "cart-link") {
+  const cartBtn = e.target.closest("#cart-link");
+  if (cartBtn) {
     e.preventDefault();
     const currentCid = localStorage.getItem("cartId");
 
     if (currentCid) {
       window.location.href = `/carts/${currentCid}`;
     } else {
-      alert("Tu carrito se está creando, intenta nuevamente");
+      alert("Tu carrito se esta creando, intenta nuevamente");
     }
+    return;
   }
 
   if (e.target.classList.contains("add-to-cart")) {

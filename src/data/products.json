@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "title": "Producto FS 1",
+    "description": "Descripción del producto en FileSystem",
+    "code": 1001,
+    "price": 1500,
+    "status": true,
+    "stock": 10,
+    "category": "tecnologia",
+    "thumbnails": []
+  },
+  {
+    "id": 2,
+    "title": "Producto FS 2",
+    "description": "Otro producto guardado en JSON",
+    "code": 1002,
+    "price": 2500,
+    "status": true,
+    "stock": 5,
+    "category": "hogar",
+    "thumbnails": []
+  }
+]

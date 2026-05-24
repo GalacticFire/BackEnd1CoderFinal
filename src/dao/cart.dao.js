@@ -16,23 +16,6 @@ export default class CartDAO {
     return await CartModel.findById(cid);
   };
 
-  // getProductInCart = async (cid, pid) => {
-  //   try {
-  //     const cart = await CartModel.findById(cid).lean();
-  //     if (!cart) throw new Error("El carrito no existe");
-  //     const productInCart = cart.products.find(
-  //       (p) => p.product?._id?.toString() === pid,
-  //     );
-
-  //     if (productInCart) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (error) {
-  //     throw new Error(null);
-  //   }
-  // };
 
   // U - Update
 

@@ -1,6 +1,4 @@
 import CartDAO from "../dao/cart.dao.js";
-import { CartModel } from "../dao/models/carts.model.js";
-import { getProducts } from "./products.controller.js";
 
 const cartService = new CartDAO();
 
