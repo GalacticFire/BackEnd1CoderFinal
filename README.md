@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Proyecto Final - Backend I (CoderHouse)
 
 API RESTful de e-commerce desarrollada como entrega final del curso Backend I. El sistema permite la gestión integral de productos y carritos de compras, implementando sincronización de inventario en tiempo real.
